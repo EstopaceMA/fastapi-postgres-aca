@@ -5,11 +5,11 @@ metadata:
     template: azd-init@1.20.2
 services:
     fastapi-postgres-aca:
-        project: .
+        project: ./src
         host: containerapp
         language: python
         docker:
-            path: Dockerfile
+            path: ./src/Dockerfile
 resources:
     fastapi-postgres-aca:
         type: host.containerapp
