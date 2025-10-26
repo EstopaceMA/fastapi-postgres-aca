@@ -1,0 +1,13 @@
+services:
+  web:
+    build: .
+    container_name: pycon_web
+    ports:
+      - "8000:8000"
+    environment:
+      # Use Supabase connection string from .env file
+      # Create a .env file with: DATABASE_URL=your-supabase-connection-string
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:password@host.docker.internal:5432/postgres}
+    volumes:
+      - ./app:/app/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
