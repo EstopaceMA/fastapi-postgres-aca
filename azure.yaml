@@ -9,7 +9,7 @@ services:
         host: containerapp
         language: python
         docker:
-            path: ./src/Dockerfile
+            path: Dockerfile
 resources:
     fastapi-postgres-aca:
         type: host.containerapp
