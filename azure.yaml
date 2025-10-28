@@ -10,6 +10,7 @@ services:
         language: python
         docker:
             path: Dockerfile
+            registry: ${AZURE_CONTAINER_REGISTRY_ENDPOINT}
 resources:
     fastapi-postgres-aca:
         type: host.containerapp
@@ -18,3 +19,5 @@ resources:
         port: 8000
     pycon-members:
         type: db.postgres
+infra:
+  provider: terraform
