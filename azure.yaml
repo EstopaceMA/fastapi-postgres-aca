@@ -8,16 +8,9 @@ services:
         project: ./src
         host: containerapp
         language: python
+        resourceName: ${SERVICE_FASTAPI_POSTGRES_ACA_NAME}
         docker:
             path: Dockerfile
             registry: ${AZURE_CONTAINER_REGISTRY_ENDPOINT}
-resources:
-    fastapi-postgres-aca:
-        type: host.containerapp
-        uses:
-            - pycon-members
-        port: 8000
-    pycon-members:
-        type: db.postgres
 infra:
   provider: terraform

@@ -53,3 +53,30 @@ output "CONTAINER_APP_FQDN" {
   description = "The FQDN of the Container App"
   value       = module.containerapp.container_app_fqdn
 }
+
+output "DATABASE_URL" {
+  description = "PostgreSQL connection string"
+  value       = module.postgres.connection_string
+  sensitive   = true
+}
+
+
+# ------------------------------------------------------------------------------------------------------
+# Azure Developer CLI (azd) Service Outputs
+# Required for azd deploy to work - maps to service name in azure.yaml
+# ------------------------------------------------------------------------------------------------------
+
+output "SERVICE_FASTAPI_POSTGRES_ACA_NAME" {
+  description = "The name of the Container App for azd service mapping"
+  value       = module.containerapp.container_app_name
+}
+
+output "SERVICE_FASTAPI_POSTGRES_ACA_URI" {
+  description = "The URI of the Container App for azd service mapping"
+  value       = module.containerapp.container_app_url
+}
+
+output "SERVICE_FASTAPI_POSTGRES_ACA_IMAGE_NAME" {
+  description = "The image name for the Container App"
+  value       = var.container_image
+}
