@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------------------------------
-# DEPLOY POSTGRESQL SERVER
+# DEPLOY POSTGRESQL FLEXIBLE SERVER WITH PRIVATE NETWORKING
 # ------------------------------------------------------------------------------------------------------
 resource "azurerm_postgresql_flexible_server" "pg" {
   name                   = "${var.prefix}-pgflex"
@@ -10,5 +10,14 @@ resource "azurerm_postgresql_flexible_server" "pg" {
   administrator_password = var.admin_password
   sku_name               = var.sku_name
   storage_mb             = 32768
+
+  # Private networking configuration
+  delegated_subnet_id = var.postgres_subnet_id
+  private_dns_zone_id = var.postgres_dns_zone_id
+
+  # Disable public network access for security
+  public_network_access_enabled = false
+
+  tags = var.tags
 }
 

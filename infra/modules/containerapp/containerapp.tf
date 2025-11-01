@@ -14,11 +14,13 @@ resource "azurerm_log_analytics_workspace" "logs" {
 # DEPLOY CONTAINER APP ENVIRONMENT
 # ------------------------------------------------------------------------------------------------------
 resource "azurerm_container_app_environment" "env" {
-  name                       = "${var.prefix}-env"
-  location                   = var.location
-  resource_group_name        = var.rg_name
-  log_analytics_workspace_id = azurerm_log_analytics_workspace.logs.id
-  tags                       = var.tags
+  name                           = "${var.prefix}-env"
+  location                       = var.location
+  resource_group_name            = var.rg_name
+  log_analytics_workspace_id     = azurerm_log_analytics_workspace.logs.id
+  infrastructure_subnet_id       = var.containerapp_subnet_id
+  internal_load_balancer_enabled = false
+  tags                           = var.tags
 }
 
 # ------------------------------------------------------------------------------------------------------

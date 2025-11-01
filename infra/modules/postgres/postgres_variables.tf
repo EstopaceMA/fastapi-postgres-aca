@@ -41,3 +41,13 @@ variable "sku_name" {
   type        = string
   default     = "B_Standard_B1ms"
 }
+
+variable "postgres_subnet_id" {
+  description = "The subnet ID for PostgreSQL private networking"
+  type        = string
+}
+
+variable "postgres_dns_zone_id" {
+  description = "The private DNS zone ID for PostgreSQL"
+  type        = string
+}

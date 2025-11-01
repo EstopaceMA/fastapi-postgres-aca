@@ -79,3 +79,8 @@ variable "acr_sku" {
   type        = string
   default     = "Basic"
 }
+
+variable "containerapp_subnet_id" {
+  description = "The subnet ID for Container App Environment VNet integration"
+  type        = string
+}

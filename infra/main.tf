@@ -14,17 +14,33 @@ resource "azurerm_resource_group" "rg" {
 }
 
 # ------------------------------------------------------------------------------------------------------
+# Deploy Virtual Network
+# ------------------------------------------------------------------------------------------------------
+
+module "vnet" {
+  source   = "./modules/vnet"
+  prefix   = var.prefix
+  location = var.location
+  rg_name  = azurerm_resource_group.rg.name
+  tags     = local.tags
+}
+
+# ------------------------------------------------------------------------------------------------------
 # Deploy PostgresSQL Database
 # ------------------------------------------------------------------------------------------------------
 
 module "postgres" {
-  source         = "./modules/postgres"
-  prefix         = var.prefix
-  location       = var.location
-  tags           = local.tags
-  rg_name        = azurerm_resource_group.rg.name
-  admin_username = var.admin_username
-  admin_password = var.admin_password
+  source               = "./modules/postgres"
+  prefix               = var.prefix
+  location             = var.location
+  tags                 = local.tags
+  rg_name              = azurerm_resource_group.rg.name
+  admin_username       = var.admin_username
+  admin_password       = var.admin_password
+  postgres_subnet_id   = module.vnet.postgres_subnet_id
+  postgres_dns_zone_id = module.vnet.postgres_dns_zone_id
+
+  depends_on = [module.vnet]
 }
 
 # ------------------------------------------------------------------------------------------------------
@@ -50,17 +66,18 @@ module "keyvault" {
 # Deploy Container App
 # ------------------------------------------------------------------------------------------------------
 module "containerapp" {
-  source           = "./modules/containerapp"
-  prefix           = var.prefix
-  location         = var.location
-  rg_name          = azurerm_resource_group.rg.name
-  tags             = local.tags
-  container_image  = var.container_image
-  container_port   = var.container_port
-  container_cpu    = var.container_cpu
-  container_memory = var.container_memory
-  min_replicas     = var.min_replicas
-  max_replicas     = var.max_replicas
+  source                 = "./modules/containerapp"
+  prefix                 = var.prefix
+  location               = var.location
+  rg_name                = azurerm_resource_group.rg.name
+  tags                   = local.tags
+  container_image        = var.container_image
+  container_port         = var.container_port
+  container_cpu          = var.container_cpu
+  container_memory       = var.container_memory
+  min_replicas           = var.min_replicas
+  max_replicas           = var.max_replicas
+  containerapp_subnet_id = module.vnet.containerapp_subnet_id
 
   # Pass the database connection string as a secret
   secrets = [
@@ -79,5 +96,5 @@ module "containerapp" {
     }
   ]
 
-  depends_on = [module.postgres, module.keyvault]
+  depends_on = [module.postgres, module.keyvault, module.vnet]
 }
