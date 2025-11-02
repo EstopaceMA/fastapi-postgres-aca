@@ -1,0 +1,33 @@
+{
+  "name": "fastapi-postgres-aca",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11-bullseye",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/azure/azure-dev/azd:latest": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "ms-azuretools.vscode-docker",
+        "hashicorp.terraform"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.linting.enabled": true,
+        "[python]": {
+          "editor.formatOnSave": true
+        },
+        "python.formatting.provider": "black"
+      }
+    }
+  },
+  "forwardPorts": [
+    8000,
+    5432
+  ],
+  "postCreateCommand": "pip install -r src/requirements-dev.txt",
+  "remoteUser": "vscode"
+}
