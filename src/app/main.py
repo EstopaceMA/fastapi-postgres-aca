@@ -31,11 +31,6 @@ This API provides complete CRUD operations for managing PyCon Davao conference m
 Currently, this API does not require authentication (demo purposes).
     """,
     version="1.0.0",
-    contact={
-        "name": "PyCon Davao Team",
-        "url": "https://pycon.ph",
-        "email": "info@pycon.ph",
-    },
     license_info={
         "name": "MIT",
     },
@@ -98,9 +93,7 @@ def create_member(member: schemas.MemberCreate, db: Session = Depends(get_db)):
     """
     db_member = crud.get_member_by_email(db, email=member.email)
     if db_member:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered"
-        )
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
     return crud.create_member(db=db, member=member)
 
 
@@ -152,9 +145,7 @@ def read_member(member_id: int, db: Session = Depends(get_db)):
     """
     db_member = crud.get_member(db, member_id=member_id)
     if db_member is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Member not found"
-        )
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Member not found")
     return db_member
 
 
@@ -165,9 +156,7 @@ def read_member(member_id: int, db: Session = Depends(get_db)):
     summary="Update a member",
     response_description="Updated member details",
 )
-def update_member(
-    member_id: int, member: schemas.MemberUpdate, db: Session = Depends(get_db)
-):
+def update_member(member_id: int, member: schemas.MemberUpdate, db: Session = Depends(get_db)):
     """
     ## Update a PyCon member
 
@@ -199,7 +188,5 @@ def update_member(
     """
     db_member = crud.update_member(db, member_id=member_id, member_update=member)
     if db_member is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Member not found"
-        )
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Member not found")
     return db_member

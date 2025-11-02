@@ -15,12 +15,9 @@ variable "environment_name" {
 }
 
 variable "admin_username" {
-  default = "pgadmin"
-}
-
-variable "admin_password" {
-  description = "Admin password for PostgreSQL"
-  sensitive   = true
+  description = "Admin username for PostgreSQL"
+  type        = string
+  default     = "pgadmin"
 }
 
 # ------------------------------------------------------------------------------------------------------

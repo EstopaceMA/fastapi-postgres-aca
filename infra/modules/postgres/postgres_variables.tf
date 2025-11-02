@@ -24,12 +24,6 @@ variable "admin_username" {
   type        = string
 }
 
-variable "admin_password" {
-  description = "The admin password of the PostgreSQL server"
-  type        = string
-  sensitive   = true
-}
-
 variable "postgres_version" {
   description = "The version of the PostgreSQL server"
   type        = string

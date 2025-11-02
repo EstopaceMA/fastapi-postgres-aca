@@ -1,4 +1,19 @@
 # ------------------------------------------------------------------------------------------------------
+# Generate random password for PostgreSQL admin
+# ------------------------------------------------------------------------------------------------------
+resource "random_password" "postgres_admin" {
+  length  = 24
+  special = true
+  # Azure PostgreSQL password requirements
+  min_lower   = 1
+  min_upper   = 1
+  min_numeric = 1
+  min_special = 1
+  # Avoid characters that might cause issues in connection strings
+  override_special = "!#$%&*()-_=+[]{}:?"
+}
+
+# ------------------------------------------------------------------------------------------------------
 # DEPLOY POSTGRESQL FLEXIBLE SERVER WITH PRIVATE NETWORKING
 # ------------------------------------------------------------------------------------------------------
 resource "azurerm_postgresql_flexible_server" "pg" {
@@ -7,7 +22,7 @@ resource "azurerm_postgresql_flexible_server" "pg" {
   location               = var.location
   version                = var.postgres_version
   administrator_login    = var.admin_username
-  administrator_password = var.admin_password
+  administrator_password = random_password.postgres_admin.result
   sku_name               = var.sku_name
   storage_mb             = 32768
 

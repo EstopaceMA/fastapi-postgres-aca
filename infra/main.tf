@@ -36,7 +36,6 @@ module "postgres" {
   tags                 = local.tags
   rg_name              = azurerm_resource_group.rg.name
   admin_username       = var.admin_username
-  admin_password       = var.admin_password
   postgres_subnet_id   = module.vnet.postgres_subnet_id
   postgres_dns_zone_id = module.vnet.postgres_dns_zone_id
 
